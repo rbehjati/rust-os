@@ -38,7 +38,7 @@ RUN curl --location https://sh.rustup.rs > /tmp/rustup \
 # See https://rust-lang.github.io/rustup-components-history/ for how to pick a version that supports
 # the appropriate set of components.
 # See https://github.com/rust-lang/rust/blob/master/RELEASES.md for Rust releases.
-ARG rust_version=nightly-2020-09-30
+ARG rust_version=nightly-2022-04-26
 RUN rustup toolchain install ${rust_version} \
   && rustup default ${rust_version}
 
@@ -46,9 +46,11 @@ RUN rustup toolchain install ${rust_version} \
 # Install thumbv7em-none-eabihf for embedded ARM.
 RUN rustup target add thumbv7em-none-eabihf
 
-# Install rust source code
+# Install rust source code.
 RUN rustup component add rust-src
 
-# Install bootimage
+# Install bootimage.
 RUN cargo install bootimage
 
+# install llvm-tools-preview, required for running bootimage.
+RUN rustup component add llvm-tools-preview
